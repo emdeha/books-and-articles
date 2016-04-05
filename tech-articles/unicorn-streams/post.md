@@ -1,17 +1,15 @@
 # Manipulating streams with Perl
 
-Ponies!
+Streams are some thingies which are quite useful when one wants to get data on
+demand.  Usually we don't know when they will end, so we just drain them byte
+by byte until we take all we need.  We could boost them though by providing 
+ways of making streams out of random objects, merging and transforming them,
+and not let them drain.
 
-No, streams.  These are some thingies which are quite useful when one wants to
-get data on demand.  Usually we don't know when they will end, so we just drain
-them byte by byte until we take all we need.  We could boost them though by
-providing ways of making streams out of random objects, merging streams,
-transforming them, and not let them drain.
-
-In this post we're going to implement some means to create infinite, immutable
+In this post I'm going to show you some means to create infinite, immutable
 streams using Perl.
 
-Given these requirements, our streams should:
+Given the above requirements, our streams should:
   1. Provide a simple interface in order to create a stream from any type
        of object
   2. Be infinite
@@ -94,9 +92,9 @@ like this:
 
     # $_[0] is the previous stream element
     my $nat_nums = make_stream(
-          from => [0], 
-          by => sub { $_[0] + 1 }
-        );
+      from => [0], 
+      by => sub { $_[0] + 1 }
+    );
 
 Now, instead of getting the rest of the stream from the provided list, when
 provided with a `by`, `make_stream` should generate it using this function on
@@ -248,7 +246,9 @@ are times when code reuse is actually a bad thing.
 
 Now `concat` itself constructs the stream resulting from the concatenation of
 the two streams.  We no longer need to do unmaintainability-foo in order to 
-implement other valuable stream functions.
+implement other valuable stream functions.  As a rule, each function which 
+generates an infinite chain of recursive calls, should wrap them in a function
+reference.
 
 Having `take`, we could implement its opposite -- `drop`.
 
@@ -380,9 +380,10 @@ predicate.  It should also preserve lazyness.
               ))));
 
 These functions give us the possibility to manipulate various kinds of streams
-on objects which only provide a way to be streamed via `->()` and `make_stream`
-and 'unstreamed' via `unmake_stream`.  I would leave this practical and funny
-experiment for another post.
+on objects which only provide a way to be streamed via `by => sub { ... }`, 
+which generates the stream's next element.  In another post I'll show you how
+to use this simple library to manipulate streamed data.  Meanwhile, you can 
+check out the [code on github](https://github.com/emdeha/books-and-articles/tree/master/tech-articles/unicorn-streams/perl)
+and play with it :)
 
-Be FUNctional,
-Tsvetan @ Camplight# Manipulating streams with Perl
+Tsvetan @ [Camplight](https://camplight.net)
