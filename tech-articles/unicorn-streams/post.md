@@ -386,4 +386,4 @@ to use this simple library to manipulate streamed data.  Meanwhile, you can
 check out the [code on github](https://github.com/emdeha/books-and-articles/tree/master/tech-articles/unicorn-streams/perl)
 and play with it :)
 
-Tsvetan @ [Camplight](https://camplight.net)
+[Camplight](https://camplight.net) made this possible.
