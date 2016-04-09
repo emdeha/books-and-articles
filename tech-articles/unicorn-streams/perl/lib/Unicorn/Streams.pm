@@ -140,11 +140,6 @@ sub unmake_stream {
     return ();
   }
 
-  my ($headD, undef) = $rest->();
-  if (ref $headD eq 'CODE') {
-    return ($head, unmake_stream($headD));
-  }
-
   return ($head, unmake_stream($rest));
 }
 
