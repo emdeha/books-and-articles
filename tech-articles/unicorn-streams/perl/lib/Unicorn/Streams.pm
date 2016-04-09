@@ -110,7 +110,11 @@ on the stream's head.
 sub make_stream {
   my %maker = @_;
 
-  my ($head, @rest) = @{$maker{from}};
+  my ($head, @rest);
+  if (exists $maker{from}) {
+    ($head, @rest) = @{$maker{from}};
+  }
+
   my $gen = $maker{by};
 
   return sub {
