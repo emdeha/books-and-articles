@@ -165,9 +165,14 @@ Gets the first `n` elems from a stream.
 
 sub take {
   my ($n, $stream) = @_;
+
+  if ($n <= 0) { # Don't wait for the next part if `take` has ended
+    return make_stream(from => []);
+  }
+
   my ($head, $rest) = $stream->();
 
-  if ($n <= 0 || !defined $head) {
+  if (!defined $head) {
     return make_stream(from => []);
   }
 
