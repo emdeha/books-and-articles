@@ -9,18 +9,18 @@ use FindBin;
 use lib "$FindBin::Bin/lib";
 
 use Unicorn::Streams qw/:all/;
-use Unicorn::Streams::NetUDP qw/simple_connection/;
+use Unicorn::Streams::NetUDP qw/:all/;
 
 
 # Streams out of Internet connections
-my $text_stream = make_stream(by => simple_connection(port => 7337));
+my $text_stream = make_stream(by => simple_immutable_connection(port => 7337));
 
 $, = ' ';
 
-say unmake_stream(take(10, $text_stream));
+say unmake_stream(smap(sub { $_[0]->[1] }, take(10, $text_stream)));
 
 # Shall return the same output as above. Streams are immutable.
-# say unmake_stream(take(10, $text_stream));
+say unmake_stream(smap(sub { $_[0]->[1] }, take(10, $text_stream)));
 
 exit(0);
 
