@@ -180,7 +180,9 @@ sub take {
     return make_stream(from => []);
   }
 
-  return cons($head, take($n-1, $rest));
+  return sub {
+    return ($head, take($n-1, $rest));
+  }
 }
 
 =head2 drop
