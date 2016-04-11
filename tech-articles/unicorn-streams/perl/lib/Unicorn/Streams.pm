@@ -122,6 +122,10 @@ sub make_stream {
       return ($head, make_stream(from => [@rest]));
     }
 
+    if (!defined $head) {
+      $head = $gen->();
+    }
+
     return ($head, make_stream(from => [$gen->($head)], by => $gen));
   }
 }
