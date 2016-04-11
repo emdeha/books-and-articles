@@ -9,9 +9,22 @@ use FindBin;
 use lib "$FindBin::Bin/lib";
 
 use Unicorn::Streams qw/:all/;
+use Unicorn::Streams::NetUDP qw/simple_connection/;
 
 
+# Streams out of Internet connections
+my $text_stream = make_stream(by => simple_connection(port => 7337));
 
+$, = ' ';
+
+say unmake_stream(take(10, $text_stream));
+
+# Shall return the same output as above. Streams are immutable.
+# say unmake_stream(take(10, $text_stream));
+
+exit(0);
+
+# Streams out of lists
 $, = ' ';
 
 my $natural_numbers = make_stream(from => [0], by => sub { shift() + 1 });
